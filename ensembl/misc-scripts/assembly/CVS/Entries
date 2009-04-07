@@ -1,0 +1,13 @@
+/EXAMPLE.use_mapping.pl/1.4/Fri Sep 15 08:39:03 2006//
+/README/1.9/Fri Sep 14 11:02:36 2007//
+/align_by_clone_identity.pl/1.5/Fri Sep 14 11:02:36 2007//
+/align_nonident_regions.pl/1.7/Fri Sep 14 11:02:36 2007//
+/align_nonident_regions_wrapper.pl/1.3/Fri Sep 14 11:02:36 2007//
+/blastz_matrix.txt/1.1/Thu Apr 13 08:41:18 2006//
+/check_mapping.pl/1.6/Fri Sep 14 11:02:36 2007//
+/compare_assemblies.pl/1.5/Fri Sep 14 11:02:36 2007//
+/find_overlaps.pl/1.1/Mon May  7 14:20:20 2007//
+/fix_overlaps.pl/1.5/Fri Sep 14 11:02:36 2007//
+/load_alternative_assembly.pl/1.4/Fri Sep 14 11:02:36 2007//
+/mapping_stats.pl/1.6/Fri Sep 14 11:02:36 2007//
+D/AssemblyMapper////

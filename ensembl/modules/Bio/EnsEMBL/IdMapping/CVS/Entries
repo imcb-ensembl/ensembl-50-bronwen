@@ -1,0 +1,23 @@
+/Archiver.pm/1.2/Mon May  5 20:26:38 2008//
+/BaseObject.pm/1.6/Fri Apr  4 14:49:05 2008//
+/Cache.pm/1.20/Mon May  5 20:26:38 2008//
+/Entry.pm/1.4/Mon May  5 20:26:38 2008//
+/ExonScoreBuilder.pm/1.9/Thu Apr 17 13:35:41 2008//
+/GeneScoreBuilder.pm/1.7/Fri Apr  4 14:49:05 2008//
+/InternalIdMapper.pm/1.6/Mon Apr 28 20:59:53 2008//
+/MappingList.pm/1.5/Mon May  5 20:26:38 2008//
+/ResultAnalyser.pm/1.6/Mon May  5 20:26:38 2008//
+/ScoreBuilder.pm/1.8/Mon May  5 20:26:38 2008//
+/ScoredMappingMatrix.pm/1.8/Mon May  5 20:26:38 2008//
+/Serialisable.pm/1.5/Mon May  5 20:26:38 2008//
+/StableIdMapper.pm/1.9/Tue Apr 29 13:59:39 2008//
+/SyntenyFramework.pm/1.7/Mon May  5 20:26:38 2008//
+/SyntenyRegion.pm/1.5/Mon May  5 20:26:38 2008//
+/TinyExon.pm/1.4/Mon May  5 20:26:38 2008//
+/TinyFeature.pm/1.4/Mon May  5 20:26:38 2008//
+/TinyGene.pm/1.6/Mon May  5 20:26:38 2008//
+/TinyTranscript.pm/1.6/Mon May  5 20:26:38 2008//
+/TinyTranslation.pm/1.4/Mon May  5 20:26:38 2008//
+/TranscriptScoreBuilder.pm/1.7/Fri Apr  4 14:49:05 2008//
+D/InternalIdMapper////
+D/StableIdGenerator////

@@ -1,0 +1,24 @@
+/Alignment.pm/1.3/Tue Dec 14 17:07:13 2004//
+/AnaSubmission.pm/1.2/Thu Jul 17 15:32:45 2003//
+/Analysis.pm/1.14/Mon Aug 22 09:32:43 2005//
+/BatchSubmission.pm/1.15/Mon Aug 22 13:07:26 2005//
+/Finished_RuleManager.pl/1.8/Fri Apr 28 15:11:24 2006/-kb/
+/Flag.pm/1.3/Mon Nov 28 15:26:07 2005//
+/Monitor.pm/1.28/Tue Jul  3 10:50:31 2007//
+/Rule.pm/1.24/Fri Nov 30 14:31:15 2007//
+/RuleManager.pm/1.21/Thu May 29 15:57:51 2008//
+/SeqFetcher.pm/1.7/Thu Apr 18 13:14:31 2002//
+/Status.pm/1.7/Tue Sep 27 09:03:57 2005//
+/runner.pl/1.32/Thu May 29 15:57:51 2008//
+D/Alignment////
+D/BatchSubmission////
+D/Config////
+D/DBSQL////
+D/Finished////
+D/GeneDuplication////
+D/Runnable////
+D/RunnableDB////
+D/SeqFetcher////
+D/Tools////
+D/Utils////
+/Job.pm/1.112/Thu Aug 28 11:03:44 2008//

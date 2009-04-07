@@ -1,0 +1,42 @@
+
+# FILE: t/EnsTestDB.conf.example
+# 
+# These are the default values for the
+# EnsEMBL test db configuration.  Copy
+# this file to t/EnsTestDB.conf and edit
+# to change the defaults.
+
+{
+    # DBD driver to use - mandatory
+    'driver'        => 'mysql',
+    
+    # machine to connect to - mandatory
+    'host'          => 'localhost',
+    
+    # user to connect to server as - mandatory
+    'user'          => '',
+    
+    # port the server is running on - optional
+    'port'          => '3306',
+    
+    # Password if needed
+    'pass'          => undef,
+    
+    # File containing the datbase schema in SQL format - mandatory
+    'schema_sql'    => [ '../sql/table.sql', '../../ensembl/sql/table.sql' ],
+
+    #EnsEMBL DBSQL::Obj module name - optional                   
+    'module'        => 'Bio::EnsEMBL::Pipeline::DBSQL::DBAdaptor',
+
+    # The following option only needs to be set for tests that use more 
+    # read-only database access - such as the REFDBs of the genebuild process.
+    # When accessing these, the RunnableDB modules insist on read-only db 
+    # objects.  With this option you can pass this information to your
+    # tests.
+
+    # Reference/read-only user name - optional
+    'readonly_user'      => ''
+
+
+
+}

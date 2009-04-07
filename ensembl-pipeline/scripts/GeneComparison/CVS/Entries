@@ -1,0 +1,21 @@
+/bsubs_for_comparing_whole_genomes.pl/1.1/Tue Apr 29 15:13:19 2003//
+/check_node.pl/1.1/Wed Oct  2 12:54:05 2002//
+/collect_isoform_comparison_output.pl/1.2/Tue Aug 19 12:35:38 2003//
+/compare_CDS.pl/1.2/Thu Sep 26 10:54:11 2002//
+/compare_Exons.pl/1.6/Fri Jun 27 13:37:07 2003//
+/compare_HomoloGene_pair.pl/1.10/Tue Aug 26 13:39:55 2003//
+/compare_Translations.pl/1.2/Thu Sep 26 10:54:11 2002//
+/compare_cDNA_exonerate.pl/1.3/Wed Oct  2 13:00:44 2002//
+/compare_isoforms.pl/1.4/Tue Aug 19 15:27:46 2003//
+/compute_syntenic_gene.pl/1.3/Tue Jul  1 11:55:34 2003//
+/exon_Coverage.pl/1.3/Thu Mar 27 08:37:56 2003//
+/exon_length_Coverage.pl/1.2/Thu Sep 26 10:54:11 2002//
+/find_isoform_pairs.pl/1.4/Mon Jun 16 16:08:03 2003//
+/find_pairs_cDNA_exonerate.pl/1.2/Wed Oct  2 12:45:03 2002//
+/make_bsubs_compare_Exons.pl/1.1/Fri Jun 27 15:15:54 2003//
+/make_bsubs_compare_HomoloGene_pairs.pl/1.2/Thu Aug 21 15:40:26 2003//
+/make_bsubs_compare_isoforms.pl/1.3/Fri Jun 27 15:15:54 2003//
+/make_bsubs_compute_syntenic_genes.pl/1.1/Fri Jun 27 15:15:54 2003//
+/make_cDNA_exonerate_bsub.pl/1.2/Wed Oct  2 12:45:03 2002//
+/test_genes_for_orthology.pl/1.1/Fri Apr 11 17:27:43 2003//
+D

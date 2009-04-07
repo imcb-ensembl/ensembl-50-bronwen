@@ -1,0 +1,223 @@
+#!/usr/local/ensembl/bin/perl -w 
+
+$| = 1;
+
+use strict;
+use Getopt::Long;
+
+use Bio::EnsEMBL::Pipeline::DBSQL::DBAdaptor;
+use Bio::EnsEMBL::Pipeline::Monitor;
+use Data::Dumper;
+
+my $dbhost          = '';
+my $dbport          = '';
+my $dbname          = '';
+my $dbuser          = '';
+my $dbpass          = undef;
+my $help            = 0;
+my $current         = 0;
+my $current_summary = 0;
+my $finished        = 0;
+my $finishedpercent = 0;
+my $analysis        = 0;
+my $rules           = 0;
+my $conditions      = 0;
+my $status_analysis = 0;
+my $unfin           = 0;     # shows the unfinished input_ids & analyses in the database.
+my $ft_ana_id       = undef; # shows clones with no hits in:with feature_table:analysis_id
+my $assembly_type   = undef; # shows unfinished input_ids & analyses in the assembly of type
+my $input_id        = undef; # shows unfinished analyses for input_id
+my $lock            = 0;
+my $no_submit       = 0;
+
+&GetOptions(
+	    'dbhost:s'          => \$dbhost,
+	    'dbport:n'          => \$dbport,
+	    'dbuser:s'          => \$dbuser,
+	    'dbpass:s'          => \$dbpass,
+	    'dbname:s'          => \$dbname,
+	    'current'           => \$current,
+	    'current_summary'   => \$current_summary,
+	    'finished'          => \$finished,
+	    'finishedpercent'   => \$finishedpercent,
+	    'analysis'          => \$analysis,
+	    'rules'             => \$rules,
+	    'conditions'        => \$conditions,
+	    'status_analysis:s' => \$status_analysis,
+	    'unfinished'        => \$unfin,
+	    'nohits=s'          => \$ft_ana_id,
+	    'assembly=s'        => \$assembly_type,
+	    'input_id=s'        => \$input_id,
+            'no_submit!'        => \$no_submit,
+	    'h|help'		=> \$help,
+	    'lock'              => \$lock
+	   ) or useage();
+
+if(!$dbhost || !$dbname){
+  print STDERR " you must provide a host and a database name for you db ".
+    "connection\n";
+  $help = 1;
+}
+
+if(!$current && !$current_summary && !$finished && !$analysis && !$rules
+   && !$conditions && !$status_analysis && !$unfin && !$ft_ana_id && 
+   !$assembly_type && !$input_id && !$lock && !$finishedpercent){
+  print STDERR "you must provide at least one display option\n";
+  $help = 1;
+}
+
+useage() if $help;
+
+my $db = new Bio::EnsEMBL::Pipeline::DBSQL::DBAdaptor
+  (
+   -host   => $dbhost,
+   -user   => $dbuser,
+   -dbname => $dbname,
+   -pass   => $dbpass,
+   -port   => $dbport,
+  );
+
+my $ana_adaptor = $db->get_AnalysisAdaptor;
+
+my $monitor = new Bio::EnsEMBL::Pipeline::Monitor(-dbobj => $db);
+
+$monitor->lock_status($lock);
+$monitor->show_current_status                 if ($current);
+$monitor->show_current_status_summary         if ($current_summary);
+$monitor->show_finished_summary($no_submit,0) if ($finished);
+$monitor->show_analysisprocess                if ($analysis);
+$monitor->show_Rules                          if ($rules);
+$monitor->show_Rules_and_Conditions           if ($conditions);
+$monitor->get_unfinished_analyses(1)          if ($unfin);
+$monitor->show_finished_summary($no_submit,1) if ($finishedpercent);
+
+if ($status_analysis) {
+  my ($status,$analysis)  = split(/:/,$status_analysis);
+
+  $monitor->show_jobs_by_status_and_analysis($status,$analysis);
+}
+if ($input_id){
+	$monitor->print_header("Unfinshed Analyses for $input_id");
+	my $unfin = $monitor->get_unfinished_analyses_for_input_id($input_id);
+	map { print join(" : ", $_->[1]) . "\n"} @$unfin;
+}
+if ($assembly_type){
+	$monitor->print_header("Unfinshed Analyses for set: <$assembly_type>");
+	my $unfin = $monitor->get_unfinished_analyses_for_assembly_type($assembly_type);
+	map { print join(" : ", @$_) . "\n"} @$unfin;
+
+#	my $hash;
+#	map { $hash->{$_->[0]}->{$_->[1]} = $_->[2] } @$unfin;
+	
+	
+#	map { print join("\n", keys(%{$hash->{$_}}) ) . "\n" } keys(%{$hash});
+	
+#	print Dumper($hash);
+
+}
+if (defined($ft_ana_id) && $ft_ana_id =~ /:/){
+	my ($ft, $ana) = split(/:/, $ft_ana_id);
+        my $ana_id;
+	if($ana =~ /^\d+$/ ){
+          $ana_id = $ana
+	}else{
+	  $ana_id = &logic_name2dbID($ana_adaptor, $ana);
+	  if(!$ana_id){
+           die("logic name ".$ana." appears not to have a analysis id");
+	  }  
+        }  
+	my $nohits = $monitor->get_no_hit_contigs_for_analysis($ft, $ana_id) if ($ana_id);
+	$monitor->print_header("Contigs with no hits in <$ft> with analysis <$ana>");
+	map { print $_->[0] . "\n"} @$nohits;
+	if(scalar(@$nohits) == 0){
+	  print STDERR "there are no contigs which have no hits to ".$ana
+          ." in ".$ft."\n";
+	}  
+}
+
+sub useage{
+	exec('perldoc', $0);
+	exit;
+}
+
+
+sub logic_name2dbID {
+    my ($ana_adaptor, $logic_name) = @_;
+  
+    my $analysis = $ana_adaptor->fetch_by_logic_name($logic_name);
+    if($analysis){
+     return $analysis->dbID;  
+    }else{
+     return 0;
+    }
+}
+
+=pod
+
+=head1 NAME
+
+monitor
+
+=head1 SYNOPSIS
+
+Pipeline Monitor Script
+
+A Simple script using the Monitor.pm module to display information on the status of the pipeline.
+
+
+=head1 OPTIONS
+
+=head2 [DB Connection Details]
+
+   -dbhost   The host where the pipeline database is.
+   -dbport   The port.
+   -dbuser   The user to connect as.
+   -dbpass   The password to use.
+   -dbname   The database name.
+
+=head2 [DISPLAY OPTIONS]
+
+   -current               shows the jobs currently in the database, 
+   the data is grouped by both analyses and status
+   -current_summary       shows the jobs in the database grouped by 
+                          status
+   -finished              shows the finished jobs summary
+   -finishedpercent       shows the finished jobs summary with calculated percentage
+   -analysis              shows the analysis table
+   -rules                 shows the rule_goal table
+   -conditions            shows the rule_conditions table
+   -status_analysis S:LN  shows the jobs with Status:Logic_Name
+   -unfinished            shows the unfinished input_ids & analyses in 
+                          the database.
+   -nohits FT:ANAID       shows clones with no hits in:with 
+                          Feature_Table:ANAlysis_ID, you can also use 
+                          a logic_name if you don't know the analysis id
+   -assembly TYPE         shows unfinished input_ids & analyses in the 
+   assembly of TYPE
+   -input_id INPUT_ID     shows unfinished analyses for INPUT_ID
+   -lock                  prints information about the pipeline.lock
+   
+=head1 EXAMPLES
+
+To display the current summary of the pipeline
+ S<./monitor -dbhost ecs2b -dbport 3306 -dbuser ensro -dbname -current_summary>
+ 
+To display ALL the input_id analysis combinations
+ S<./monitor -dbhost ecs2b -dbport 3306 -dbuser ensro -dbname -unfinished>
+ 
+To limit this to an assembly
+ S<./monitor -dbhost ecs2b -dbport 3306 -dbuser ensro -dbname -assembly ChrX>
+
+To limit it to an input_id
+ S<./monitor -dbhost ecs2b -dbport 3306 -dbuser ensro -dbname -input_id AL321765.1.1.100009>
+
+To get the list of contigs B<WITHOUT> hits in the dna_align_feature table for the 
+analysis with ID 20 I<(like Oates, It may be some time)>
+ S<./monitor -dbhost ecs2b -dbport 3306 -dbuser ensro -dbname -nohits dna_align_feature:20>
+
+
+=head1 SEE ALSO
+
+Bio::EnsEMBL::Pipeline::Monitor.pm
+
+=cut

@@ -1,0 +1,24 @@
+/check_CDSs.pl/1.6/Mon May  3 18:44:21 2004//
+/check_cDNA.pl/1.1/Tue May 20 09:41:50 2003//
+/check_evidence.pl/1.5/Wed May 21 10:57:17 2003//
+/check_feature_density.pl/1.2/Thu Jan 30 11:04:10 2003//
+/check_splice_sites.pl/1.4/Mon May  3 18:44:21 2004//
+/check_transcript.pl/1.2/Mon Feb 24 13:27:23 2003//
+/check_translation.pl/1.1/Fri Mar 14 15:10:52 2003//
+/classify_transcripts_by_evidence.pl/1.2/Tue Jun 10 15:38:05 2003//
+/cluster_Genes.pl/1.2/Wed Jan  8 15:13:45 2003//
+/count_intron_sizes.pl/1.4/Mon May  3 18:44:21 2004//
+/count_single_exons_transcripts.pl/1.1/Tue May 20 15:00:05 2003//
+/count_transcripts_with_UTRs.pl/1.1/Wed May 21 08:28:11 2003//
+/create_stable_ids.pl/1.5/Wed Apr  6 23:16:02 2005//
+/dump_CDSs.pl/1.1/Tue Apr 29 12:07:33 2003//
+/dump_ensembl_cdnas.pl/1.4/Fri Mar 14 15:58:40 2003//
+/dump_ensembl_transcript_structures.pl/1.4/Fri Mar 14 15:57:28 2003//
+/dump_translations.pl/1.1/Thu Feb 13 13:29:20 2003//
+/find_nearby_splice_sites.pl/1.1/Fri Mar 14 13:03:04 2003//
+/fix_estgene.pl/1.1/Mon Jul 14 08:11:25 2003//
+/get_transcripts_with_this_evidence.pl/1.5/Wed Oct  1 10:56:57 2003//
+/post_GeneBuild_checks.pl/1.7/Thu Jan 30 11:04:10 2003//
+/post_GeneBuild_checks_denormalised.pl/1.4/Thu Jan 30 11:04:10 2003//
+/produce_training_set.pl/1.1/Thu Jun  5 14:22:22 2003//
+D

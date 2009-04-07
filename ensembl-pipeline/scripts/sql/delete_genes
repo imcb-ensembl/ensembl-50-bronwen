@@ -1,0 +1,11 @@
+delete from gene; 
+delete from transcript; 
+delete from translation; 
+delete from exon_transcript; 
+delete from exon ; 
+delete from supporting_feature;
+delete from gene_stable_id;
+delete from transcript_stable_id;
+delete from exon_stable_id;
+delete from translation_stable_id;
+delete from transcript_supporting_feature;

@@ -1,0 +1,187 @@
+# You may distribute this module under the same terms as perl itself
+
+# POD documentation - main docs before the code
+
+=head1 NAME
+
+Bio::EnsEMBL::Pipeline::Config::PseudoGenes::PseudoGenes;
+
+=head1 SYNOPSIS
+    use Bio::EnsEMBL::Pipeline::Config::GeneBuild::PseudoGenes;
+    use Bio::EnsEMBL::Pipeline::Config::GeneBuild::PseudoGenes qw(  );
+
+=head1 DESCRIPTION
+
+PseudoGenes is a pure ripoff of humConf written by James Gilbert.
+
+humConf is based upon ideas from the standard perl Env environment
+module.
+
+It imports and sets a number of standard global variables into the
+calling package, which are used in many scripts in the human sequence
+analysis system.  The variables are first decalared using "use vars",
+so that it can be used when "use strict" is in use in the calling
+script.  Without arguments all the standard variables are set, and
+with a list, only those variables whose names are provided are set.
+The module will die if a variable which doesn\'t appear in its
+C<%PseudoGenes> hash is asked to be set.
+
+The variables can also be references to arrays or hashes.
+
+Edit C<%PseudoGenes> to add or alter variables.
+
+All the variables are in capitals, so that they resemble environment
+variables.
+
+=head1 CONTACT
+
+=cut
+
+
+package Bio::EnsEMBL::Pipeline::Config::PseudoGenes::PseudoGenes;
+
+use strict;
+use vars qw( %PseudoGenes );
+
+# Hash containing config info
+%PseudoGenes = (
+	      
+	############################################################
+	# parameters common to both types of
+	# pseudogene analysis
+
+        TMPDIR      => '/ecs2/scratch1/ensembl/eae/Rat_PseudoGenes',
+        BSUBS_FILE  => '/ecs2/scratch1/ensembl/eae/Rat_PseudoGenes/jobs',
+        LSF_OPTIONS => ' -C0 -q acari ',
+	      
+        # database with the syntenic regions. orthologs, etc
+	COMPARA_DBNAME  => 'ensembl_compara_16_1',
+	COMPARA_DBHOST  => 'ecs2f',
+	REPEAT_DBHOST => 'ecs2f', 
+        REPEAT_DBNAME => 'fake_repeat_db',
+				
+	
+	# Species we compare to:
+	# these databases should contain the dna and assembly
+	# compatible with the compara database use above.
+	# We do it like this and not using a compara_config file to
+	# avoid having multiple config files
+	FOCUS_SPECIES => 'Rattus norvegicus',
+	COMPARATIVE_DBS    => [
+				       {
+					SPECIES => 'Homo sapiens',
+					DBHOST  => 'ecs2f',
+					DBNAME  => 'homo_sapiens_core_16_33',
+					PATH    => 'NCBI33',
+				       },
+				       {
+					SPECIES => 'Mus musculus',
+					DBHOST  => 'ecs2f',
+					DBNAME  => 'mus_musculus_core_16_30',
+					PATH    => 'NCBIM30',
+				       },
+				      ],
+
+	# refdb, where the sequence is, sometimes this can be different from genewise_db
+	REF_DBNAME   => 'rattus_norvegicus_core_16_2',
+	REF_DBHOST   => 'ecs2f',	
+
+	############################################################
+	#
+	# PSEUDOGENE LABELLING
+	#
+	############################################################
+	# parameters for pseudogene labelling
+	# This is analysis is run on a set of
+	# predicted genes and those with properties indicating
+	# that are possible processed-pseudogenes
+	# will be labelled as 'pseudogenes'
+
+        LABEL_SCRIPT => '/nfs/acari/eae/ensembl/ensembl-pipeline/scripts/Pseudogenes/label_pseudogenes.pl',
+	LABEL_PRE_EXEC   => '/nfs/acari/eae/ensembl/ensembl-pipeline/scripts/Pseudogenes/label_pseudogenes.pl -check',
+	
+	# database where the genes to be labelled are
+	LABEL_DBNAME => 'rattus_norvegicus_core_16_2',
+        LABEL_DBHOST => 'ecs2f',
+	LABEL_PATH   => 'RGSC2',	
+
+	############################################################
+	#
+	# PSEUDOGENE ANNOTATION
+	#
+	############################################################
+	# parameters for the automatic annotation of pseudogenes
+	
+	PSEUDO_SCRIPT     => '/nfs/acari/eae/ensembl/ensembl-pipeline/scripts/Pseudogenes/pseudogene_finder.pl',
+	PSEUDO_PRE_EXEC   => '/nfs/acari/eae/ensembl/ensembl-pipeline/scripts/Pseudogenes/pseudogene_finder.pl -check',
+				
+	INPUTID_REGEX => '(\S+)\.(\d+)-(\d+)',
+	      	      
+	
+	# database where we will write the pseudogenes
+	PSEUDO_DBUSER   => 'ensadmin',
+	PSEUDO_DBNAME   => '',
+	PSEUDO_DBHOST   => '',
+	PSEUDO_DBPASS   => '',
+
+        # EXONERATE OPTIONS #
+		      
+	# full path fo the dir where we have the masked-dusted chromosomes
+	      GENOMIC                 => '/data/blastdb/Ensembl/NCBI33/genome/',
+      	      # path to file with repeatmasked dusted genomic sequences
+	      # NB this file is huge - distribute it across the farm or 
+	      # be prepared to face the wrath of systems when the network 
+	      # seizes up!
+	
+	      # which version of exonerate      
+	      EXONERATE              => '/usr/local/ensembl/bin/exonerate-0.6.7',
+	      
+      	      # options for pseudogenes:
+              EXONERATE_OPTIONS       => ' --softmasktarget  --score 500 --fsmmemory 800  --saturatethreshold 100 --hspthreshold 60 --dnawordlen 14 --forcegtag FALSE',
+
+      	      BEST_IN_GENOME => 1,
+	      MIN_COVERAGE            => 90,
+	      MIN_PERCENT_ID          => 97,
+
+	      ############################################################
+	      # each runnable has an analysis
+	      ############################################################
+	      
+	    PSEUDO_RUNNABLE     => 'Bio::EnsEMBL::Pipeline::RunnableDB::PseudoGeneFinder',
+	    PSEUDO_ANALYSIS     => 'pseudogene',	      
+	    PSEUDO_SOURCE       => 'RefSeq-EMBL',      
+	      	    
+
+		    
+	     );	      
+
+sub import {
+  my ($callpack) = caller(0); # Name of the calling package
+  my $pack = shift; # Need to move package off @_
+  
+  # Get list of variables supplied, or else
+  # all of PseudoGenes:
+  my @vars = @_ ? @_ : keys( %PseudoGenes );
+  return unless @vars;
+  
+  # Predeclare global variables in calling package
+  eval "package $callpack; use vars qw("
+    . join(' ', map { '$'.$_ } @vars) . ")";
+    die $@ if $@;
+
+
+    foreach (@vars) {
+	if ( defined $PseudoGenes{ $_ } ) {
+            no strict 'refs';
+	    # Exporter does a similar job to the following
+	    # statement, but for function names, not
+	    # scalar variables:
+	    *{"${callpack}::$_"} = \$PseudoGenes{ $_ };
+	} else {
+	    die "Error: PseudoGenes: $_ not known\n";
+	}
+    }
+}
+
+1;
+

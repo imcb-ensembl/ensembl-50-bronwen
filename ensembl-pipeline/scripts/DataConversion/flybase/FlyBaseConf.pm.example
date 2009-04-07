@@ -1,0 +1,223 @@
+package FlyBaseConf;
+
+use strict;
+use vars qw( %FlyBaseConf );
+
+
+
+%FlyBaseConf = (
+		 #location of gff files
+		 FB_CHR_INFO => [
+				 {
+				  chr_name => '2L',
+				  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-2L-r5.3.gff",
+				 },
+				 {
+				  chr_name => '2LHet',
+				  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-2LHet-r5.3.gff",
+				 },
+	                         {
+				  chr_name => '2R',
+				  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-2R-r5.3.gff",
+				 },
+	                         {
+				  chr_name => '2RHet',
+				  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-2RHet-r5.3.gff",
+				 },
+	                         {
+				  chr_name => '3L',
+				  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-3L-r5.3.gff",
+				 },
+	                         {
+				  chr_name => '3LHet',
+				  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-3LHet-r5.3.gff",
+				 },
+                                 {
+                                  chr_name => '3R',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-3R-r5.3.gff",
+                                 },
+                                 {
+                                  chr_name => '3RHet',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-3RHet-r5.3.gff",
+                                 },
+                                 {
+                                  chr_name => '4',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-4-r5.3.gff",
+                                 },
+                                 {
+                                  chr_name => 'U',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-U-r5.3.gff",
+                                 },
+                                 {
+                                  chr_name => 'Uextra',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-Uextra-r5.3.gff",
+                                 },
+                                 {
+                                  chr_name => 'X',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-X-r5.3.gff",
+                                 },
+                                 {
+                                  chr_name => 'XHet',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-XHet-r5.3.gff",
+                                 },
+                                 {
+                                  chr_name => 'YHet',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-YHet-r5.3.gff",
+                                 },
+                                 {
+                                  chr_name => 'dmel_mitochondrion_genome',
+                                  gff_file => "/lustre/work1/ensembl/ba1/drosophila5.3/seqdata/dmel-dmel_mitochondrion_genome-r5.3.gff",
+                                 },
+			       ],
+
+                LOGIC_NAME_EXON=>'ba1_flybase_import',
+                ATTRIBUTE_VERSION => 5, # set this to the FlyBase import version eg. '5' if working with r5.3
+                # details for db-connection are stored in registry-file
+                FB_DBNAME => 'ba1_drosophila_5_3_seq',
+                FB_DBHOST => 'genebuild6',
+                FB_DBUSER => 'ensadmin',
+                FB_DBPASS => 'ensembl',
+                FB_DBPORT => '3306',
+
+
+                #files for proteindumps
+                FB_DUMPED_SELENOCYSTEINE_FILE => "/lustre/work1/ensembl/ba1/drosophila5.3/dumps/gff_load_dumped_selenocysteines.fasta",
+                FB_DUMPED_TRANSLATIONS_FILE => "/lustre/work1/ensembl/ba1/drosophila5.3/dumps/gff_load_dumped_translations.fasta",
+                FB_CVS_DIR => '/nfs/acari/ba1/cvs_co/',
+
+                # parameters for analysis object (logic_name is set in flybase_to_ensembl.pl
+                ANA_DB => 'FlyBase',
+                ANA_DB_VERSION => '5.3',
+                ANA_DB_FILE => '',
+                ANA_PROGRAM => '',
+                ANA_PROGRAM_VERSION => '',
+                ANA_PROGRAM_FILE => '',
+                ANA_GFF_SOURCE => 'Flybase-GFF dmel_r5.3_FB2007_02',
+                ANA_GFF_FEATURE => '',
+                ANA_MODULE => '',
+                ANA_MODULE_VERSION => '',
+                ANA_PARAMETERS => '',
+                ANA_CREATED => '',
+
+
+
+                # if want the debug statements in wormbase to ensembl scripts printed
+                FB_DEBUG => 1,
+
+                # list of simple-features which have to be stored (type must match the type-field (column 3) in gff 
+                SIMPLE_FEATURES => [
+                                    {
+                                     type => 'BAC_cloned_genomic_insert',
+                                    },
+                                    {
+                                     type => 'DNA_motif',
+                                    },
+                                    {
+                                     type => 'aberration_junction',
+                                    },
+                                    {
+                                     type => 'chromosome_band',
+                                    },
+                                    {
+                                     type => 'deletion',
+                                    },
+                                    {
+                                     type => 'enhancer',
+                                    },
+                                    {
+                                     type => 'insertion_site',
+                                    },
+                                    {
+                                     type => 'match',
+                                    },
+                                    {
+                                     type => 'match_part',
+                                    },
+                                    {
+                                     type => 'mature_peptide',
+                                    },
+                                    {
+                                     type => 'oligonucleotide' ,
+                                    },
+                                    {
+                                     type => 'orthologous_region',
+                                    },
+                                    {
+                                     type => 'orthologous_to',
+                                    },
+                                    {
+                                     type => 'pcr_product',
+                                    },
+                                    {
+                                     type => 'point_mutation',
+                                    },
+                                    {
+                                     type => 'polyA_site',
+                                    },
+                                    {
+                                     type => 'protein_binding_site',
+                                    },
+                                    {
+                                     type => 'regulatory_region',
+                                    },
+                                    {
+                                     type => 'repeat_region',
+                                    },
+                                    {
+                                     type => 'rescue_fragment',
+                                    },
+                                    {
+                                     type => 'sequence_variant',
+                                    },
+                                    {
+                                     type => 'syntenic_region',
+                                    },
+                                    {
+                                     type => 'tandem_repeat',
+                                    },
+                                    {
+                                     type => 'transposable_element',
+                                    },
+                                    {
+                                     type => 'transposable_element_insertion_site',
+                                    },
+                                    {
+                                     type => 'transposable_element_target_site_duplication',
+                                    },
+                                    {
+                                     type => 'uncharacterized_change_in_nucleotide_sequence',
+                                    },
+                                   ], 
+		                );	
+
+sub import {
+    my ($callpack) = caller(0); # Name of the calling package
+    my $pack = shift; # Need to move package off @_
+
+    # Get list of variables supplied, or else
+    # all of GeneConf:
+    my @vars = @_ ? @_ : keys( %FlyBaseConf );
+    return unless @vars;
+
+    # Predeclare global variables in calling package
+    eval "package $callpack; use vars qw("
+         . join(' ', map { '$'.$_ } @vars) . ")";
+    die $@ if $@;
+
+
+    foreach (@vars) {
+	if ( defined $FlyBaseConf{ $_ } ) {
+            no strict 'refs';
+	    # Exporter does a similar job to the following
+	    # statement, but for function names, not
+	    # scalar variables:
+	    *{"${callpack}::$_"} = \$FlyBaseConf{ $_ };
+	} else {
+	    die "Error: FlyBaseConf: $_ not known\n";
+	}
+    }
+}
+
+1;
+
+

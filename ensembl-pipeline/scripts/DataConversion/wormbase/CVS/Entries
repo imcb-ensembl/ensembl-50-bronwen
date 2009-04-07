@@ -1,0 +1,17 @@
+/Clone2Acc.pm/1.2/Thu Nov 21 15:36:37 2002//
+/WormBase.pm/1.16/Tue Nov 29 17:41:56 2005//
+/WormBaseConf.pm.example/1.9/Tue Nov 29 17:52:28 2005//
+/converting_wormbase_to_ensembl.txt/1.5/Tue Nov 29 18:12:58 2005//
+/expr_store.pl/1.6/Tue Dec 13 09:29:50 2005//
+/feature_store.pl/1.3/Tue Dec 13 09:33:31 2005//
+/gene_store.pl/1.6/Tue Dec 13 09:35:29 2005//
+/operon_store.pl/1.6/Tue Dec 13 09:36:44 2005//
+/pseudo_store.pl/1.6/Tue Dec 13 09:37:49 2005//
+/raw_compute_transfer.pl/1.3/Wed Feb 12 13:38:18 2003//
+/rnai_store.pl/1.6/Tue Dec 13 09:39:43 2005//
+/sequence_store.pl/1.8/Tue Dec 13 10:00:20 2005//
+/sl1_store.pl/1.1/Fri Feb  7 11:43:26 2003//
+/sl2_store.pl/1.1/Fri Feb  7 11:43:26 2003//
+/translation_check.pl/1.1/Thu Jan 16 13:19:06 2003//
+/wormbase_to_ensembl.pl/1.16/Mon Dec 19 10:24:32 2005//
+D

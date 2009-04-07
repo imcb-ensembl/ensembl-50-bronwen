@@ -1,0 +1,19 @@
+/AlignAffyProbes.pm.example/1.5/Wed Mar 29 14:52:02 2006//
+/AlignmentFilter.pm.example/1.6/Wed May  3 16:23:40 2006//
+/Blast.pm.example/1.7/Mon Jan 15 15:30:38 2007//
+/CollapseAffyProbes.pm.example/1.2/Fri Dec  3 16:16:33 2004//
+/Compara.pm.example/1.1/Fri Mar 14 16:30:59 2008//
+/Databases.pm.example/1.4/Fri May  2 13:58:56 2008//
+/ExonerateAlignFeature.pm.example/1.2/Fri Mar 31 15:17:39 2006//
+/ExonerateCloneEnds.pm.example/1.8/Mon Mar 20 10:31:53 2006//
+/ExonerateTags.pm.example/1.6/Thu Mar 13 15:21:54 2008//
+/General.pm.example/1.11/Thu Sep 27 16:06:26 2007//
+/ProteinAnnotation.pm.example/1.6/Wed Feb 28 02:23:05 2007//
+/Pseudogene.pm.example/1.10/Tue Jul  8 12:56:03 2008//
+/WGA2Genes.pm.example/1.13/Tue Jun 10 13:34:46 2008//
+/WGA2GenesDirect.pm.example/1.3/Thu Jun 28 13:13:19 2007//
+D/Funcgen////
+D/GeneBuild////
+/HavanaAdder.pm.example/1.3/Thu Aug 28 11:02:54 2008//
+/ImportArrays.pm/1.1/Thu Aug 28 11:02:54 2008//
+/Exonerate2Genes.pm.example/1.13/Wed Sep  3 14:13:35 2008//

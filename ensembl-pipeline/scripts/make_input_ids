@@ -1,0 +1,267 @@
+#!/usr/local/ensembl/bin/perl
+
+=head1 NAME
+
+make_input_ids  - handles insertion, deletion and listing of rules in a database
+
+=head1 SYNOPSIS
+
+make_input_ids -dbhost ecs1a -dbuser ensadmin -dbpass **** -dbname pipeline_db -contig
+
+=head1 DESCRIPTION
+
+this script allows input_ids to be generated and written to the input_id_analysis table for
+
+=head1 OPTIONS
+
+    -dbhost    host name for database (gets put as host= in locator)
+
+    -dbport    For RDBs, what port to connect to (port= in locator)
+
+    -dbname    For RDBs, what name to connect to (dbname= in locator)
+
+    -dbuser    For RDBs, what username to connect as (user= in locator)
+
+    -dbpass    For RDBs, what password to use (pass= in locator)
+
+    -help      Displays script documentation with PERLDOC
+
+
+    -logic_name the logic_name of the analysis object which needs to be 
+                associated with these entries 
+    
+    -slice     signals to insert slice type input ids using
+               the format chrname.start-end
+
+    -coord_system the coordinate system you want slices in
+    
+    -coord_system_version the version of the coord system you want
+
+    -slice_size the size to make the slice ids
+
+    -slice_overlap the slice overlap (non-overlapping by default)
+    
+    -file     if the input_ids are to be a list of filenames from a directory
+    
+    -dir      the directory to read the filenames from
+    
+    -file_regex a regex to impose on the filenames before using them
+    
+    -single if you just want a single dummy input_id ie for genome wide analyses
+    -single_name , by default this is genome but you can specify something
+    different here, for example for protein annotation jobs which use the 
+    whole proteome this must be proteome
+    -translation_ids if you want your input ids to be translation ids
+    -verbose if you want more information about what the script is doing
+    -input_id_type if you want to specific an input_id_type not already
+     used by the analysis object
+    -insert_analysis if you want to insert an analysis object if it doesn't
+     already exist in the database'
+    -seq_level if you want the ids for the seq_level seq_regions, can
+    work with slice_size but the -slice options isn't required'
+    -top_level this will fetch all the non_redundant pieces in
+     the database this may produce ids which are a mixture of different
+     coordinate systems, if -coord_system_version is specified it will
+     be ignored
+    -hap_pair this will generate an input_id that is the relation between a haplotype
+     and the reference chromosome
+=head1 EXAMPLES
+
+
+perl  make_input_ids -dbhost <HOST> -dbname <DBNAME> -dbport <PORT> 
+         -dbuser <USER> -dbpass ***** 
+           -slice -slice_size 150000 
+             -coord_system chromosome 
+              -logic_name SubmitSlice150k 
+                -input_id_type Slice150k
+
+This will create input-id's in the format  'chromosome:BDGP4.1:2L:1:149386:1' of size 150k
+Remember to create an analysis 'SubmitSlice150k'(module 'Dummy') and an entry in 
+input_id_type_analysis as well !
+
+
+
+./make_input_ids -dbhost host -dbuser user -dbpass *** -dbport 3306 
+  -dbname my_database -contig
+
+this will use all the contig names are input_ids
+
+./make_input_ids -dbhost host -dbuser user -dbpass *** -dbport 3306 
+  -dbname my_database -slice -slice_size 1000000
+
+this will make slice names in the format chr_name.start-end all 1M in size
+
+./make_input_ids -dbhost host -dbuser user -dbpass *** -dbport 3306 
+  -dbname my_database -file -dir path/to/dir
+
+this will use all the filenames in the dir specified as input_ids
+
+./make_input_ids -dbhost host -dbuser user -dbpass *** -dbport 3306 
+  -dbname my_database -file -dir path/to/dir -regex /chunk/
+
+this will use all the filenames in dir which match the specifed regex
+as input_ids
+
+
+./make_input_ids -dbhost host -dbuser user -dbpass *** -dbport 3306 
+  -dbname my_database -translation_ids
+
+this will use all the translation ids as input_ids
+
+
+this will use all seq_regions of coord_system_type 'chromosome' and version BDGP4.1 as input-ids:
+----------------------------------------------------------------------------------------------
+./make_input_ids -dbhost host -dbuser user -dbpass *** -dbport 3306
+-logic_name SubmitChromosome -coord_system chromosome -coord_system_version BDGP4.1 -slice
+
+
+Make one single input_id named 'my_single_inputid' : 
+------------------------------------------------------
+
+perl make_input_ids $dbconnection  -logic_name SubmitProteome -single -single_name my_single_input_id 
+
+
+
+
+=cut
+
+
+
+
+use Bio::EnsEMBL::Pipeline::Analysis;
+use Bio::EnsEMBL::Pipeline::DBSQL::DBAdaptor;
+use Bio::EnsEMBL::Pipeline::Utils::InputIDFactory;
+use Bio::EnsEMBL::Pipeline::DBSQL::StateInfoContainer;
+use Bio::EnsEMBL::Utils::Exception qw(throw warning);
+use strict;
+use Getopt::Long;
+
+my $host;
+my $user;
+my $pass;
+my $port = 3306;
+my $dbname;
+my $logic_name;
+my $slice_size;
+my $slice_overlap;
+my $coord_system;
+my $coord_system_version;
+my $slice;
+my $input_id_type;
+my $file;
+my $dir;
+my $regex;
+my $single;
+my $verbose;
+my $help = 0;
+my $translation_id;
+my $seq_region_name;
+my $name = 'genome';
+my $seq_level;
+my $top_level;
+my $include_non_reference;
+my $insert_analysis = 0;
+my $hap_pair;
+&GetOptions(
+            'dbhost:s'     => \$host,
+            'dbport:n'     => \$port,
+            'dbuser:s'     => \$user,
+            'dbpass:s'     => \$pass,
+            'dbname:s'     => \$dbname,
+            'coord_system:s'       => \$coord_system,
+            'coord_system_version:s' => \$coord_system_version,
+            'slice!'        => \$slice,
+            'slice_size:s' => \$slice_size,
+            'slice_overlap:s' => \$slice_overlap,
+            'logic_name:s' => \$logic_name,
+            'input_id_type:s' => \$input_id_type,
+            'file!'         => \$file,
+            'dir:s'        => \$dir,
+            'file_regex:s' => \$regex,
+            'single!'       => \$single,
+            'single_name:s'=> \$name,
+            'verbose!'      => \$verbose,
+            'translation_ids!' => \$translation_id,
+            'seq_level!' => \$seq_level,
+            'top_level!' => \$top_level,
+            'include_non_reference!' => \$include_non_reference,
+            'h|help'            => \$help,
+            'insert_analysis!' => \$insert_analysis,
+            'hap_pair'        => \$hap_pair,
+            'seqregionname:s' => \$seq_region_name,
+           );
+
+
+
+if(!$host || !$user || !$dbname){
+  warn("Can't run without -dbhost $host -dbuser $user -dbname $dbname");
+  $help = 1;
+}
+
+if ($help) {
+    exec('perldoc', $0);
+}
+my $db = new Bio::EnsEMBL::Pipeline::DBSQL::DBAdaptor(-host   => $host,
+                                                      -user   => $user,
+                                                      -pass   => $pass,
+                                                      -port   => $port,
+                                                      -dbname => $dbname);
+
+if($seq_level && $top_level){
+  print STDERR "YOU can get both the seq_level and top_level ids at the ".
+    "same time\n";
+  exec('perldoc', $0);
+
+}
+if($seq_level){
+  $slice = 1;
+  $coord_system = 'seqlevel';
+}elsif($top_level){
+  $slice = 1;
+  $coord_system = 'toplevel';
+}elsif($hap_pair){
+#  $slice = 0;
+#  $coord_system = 'toplevel';
+}
+
+if (!($slice) && !($single) && !($file) && !($translation_id) && !($hap_pair)) {
+  throw("Must define input as either contig, slice, file, translation_id ".
+  "single, seq_level or top_level or hap_pair");
+  exec('perldoc', $0);
+}
+
+if(!$logic_name){
+  throw("Can't run with out a logic_name");
+  exec('perldoc', $0);
+}
+
+my $inputIDFactory = new Bio::EnsEMBL::Pipeline::Utils::InputIDFactory
+  (
+   -db => $db,
+   -slice => $slice,
+   -single => $single,
+   -file => $file,
+   -translation_id => $translation_id,
+   -seq_level => $seq_level,
+   -top_level => $top_level,
+   -include_non_reference => $include_non_reference,
+   -dir => $dir,
+   -regex => $regex,
+   -single_name => $name,
+   -verbose => $verbose,
+   -logic_name => $logic_name,
+   -input_id_type => $input_id_type,
+   -insert_analysis => $insert_analysis,
+   -coord_system => $coord_system,
+   -coord_system_version => $coord_system_version,
+   -slice_size => $slice_size,
+   -slice_overlaps => $slice_overlap,
+   -seq_region_name => $seq_region_name,
+   -hap_pair => $hap_pair,
+  );
+
+
+$inputIDFactory->generate_input_ids;
+$inputIDFactory->store_input_ids;
+
+

@@ -1,0 +1,73 @@
+package ncRNA_update_config;
+
+use strict;
+use vars qw(%Config);
+
+
+%Config = (
+	   CONFIG => {
+		      HUMAN => {
+				  # source db with dna dont want to write to this one
+				  DBNAME     => "human_ref_db",
+				  DBPORT     => "3306",
+				  DBHOST     => "genebuildX",
+				  # DB to write to (Also the pipeline database)
+				  WRITEHOST  => "genebuildY",
+				  WRITEPORT  => "3306",
+				  WRITENAME  => "ncRNA_db",
+				  # mysql instance source db is on
+				  REFINS     => "mygenebuildX",
+				  # lsf load for source db
+				  REFLOAD    => 800,
+				  # mysql instance pipeline/output db is on
+			          WRITEINS   => "mygenebuildY",
+				  # lsf load for pipeline/output db
+				  WRITELOAD  => 800,
+				 },	
+				 
+	             # etc for however many species you want	 				 				 
+		     },
+	   DATADIR   => "/path/to/store/output",
+	   CVSDIR    => "/path/to/cvs/",
+	   WRITEUSER => "mysql_write_access",
+           BIOPERL_LIVE_PATH => "/path/to/bioperl-live",
+           BIOPERL_RUN_PATH=> "/path/to/bioperl-run",
+
+	   MIRBASEVERSION => "10.0",
+	   RFAMVERSION => "8.0",
+	   # directory to make the blast databases in
+	   BLASTDIR    => "path/to/blast/db",
+	  );
+
+
+
+
+sub import {
+  my ($callpack) = caller(0); # Name of the calling package
+  my $pack = shift; # Need to move package off @_
+
+    # Get list of variables supplied, or else all
+  my @vars = @_ ? @_ : keys(%Config);
+  return unless @vars;
+
+    # Predeclare global variables in calling package
+  eval "package $callpack; use vars qw("
+       . join(' ', map { '$'.$_ } @vars) . ")";
+  die $@ if $@;
+
+
+    foreach (@vars) {
+    if (defined $Config{ $_ }) {
+              no strict 'refs';
+        # Exporter does a similar job to the following
+        # statement, but for function names, not
+        # scalar variables:
+        *{"${callpack}::$_"} = \$Config{ $_ };
+    } else {
+        die "Error: Config: $_ not known\n";
+    }
+  }
+}
+
+1;
+

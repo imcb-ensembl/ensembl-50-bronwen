@@ -1,0 +1,82 @@
+/AnalysisCreation.pm/1.15/Tue Jul  1 15:43:19 2008//
+/ExonerateArray.pl/1.1/Fri Feb 13 12:20:50 2004//
+/InputIdManager.pl/1.2/Mon Dec  9 10:49:04 2002//
+/Node.pm/1.2/Fri Jun 18 12:44:30 2004//
+/RuleCreation.pm/1.3/Mon Feb  5 11:31:57 2007//
+/RuleHandler.pl/1.14/Tue Jul 27 15:13:15 2004//
+/add_Analysis/1.7/Thu May 20 09:09:38 2004//
+/add_to_Pipeline/1.2/Fri Sep 26 13:05:59 2003//
+/alfanumeric_id_increment.pl/1.3/Fri Jan  6 10:45:44 2006//
+/alignment_squiz.pl/1.1/Thu May 26 13:42:24 2005//
+/analysis_setup.pl/1.9/Fri Feb 17 08:48:27 2006//
+/awol_check.pl/1.2/Thu Apr 29 12:53:51 2004//
+/bsub_snp_jobs.pl/1.1/Wed Nov 14 13:57:11 2001//
+/bsub_ssaha.pl/1.1/Wed Nov 14 14:01:49 2001//
+/chr_splitter/1.1/Tue Feb 13 16:48:09 2001//
+/display_alignment.pl/1.4/Sun Mar 13 11:23:15 2005//
+/dump_genes_from_core.pl/1.3/Tue Aug  9 14:03:33 2005//
+/est_discriminator.pl/1.2/Thu May 26 16:46:06 2005//
+/example_analysis.conf/1.4/Tue May 10 09:35:25 2005//
+/example_rule.conf/1.2/Wed May  4 09:32:16 2005//
+/extra_database_setup.pl/1.5/Fri Jun 16 16:35:54 2006//
+/extract_gene_ids_for_hive.pl/1.2/Wed Aug 10 20:44:14 2005//
+/fasta2otter/1.1/Sun Dec  1 14:30:48 2002//
+/find_big_clusters.pl/1.1/Fri May 27 15:50:46 2005//
+/flush_Pipeline/1.2/Fri Sep 26 13:05:59 2003//
+/ge_wrapper.pl/1.1/Thu Sep 26 23:40:29 2002//
+/id_increment.pl/1.1/Wed May  5 13:04:06 2004//
+/init_Pipeline/1.2/Fri Sep 26 13:05:59 2003//
+/job_submission.pl/1.8/Fri Apr 29 14:52:03 2005//
+/load_agp.pl/1.8/Wed May 10 13:52:46 2006//
+/load_finished_seq_region.pl/1.3/Thu Oct 13 10:41:45 2005//
+/load_seq_region.pl/1.6/Fri Sep 22 08:46:09 2006//
+/load_taxonomy.pl/1.4/Fri Oct 26 15:27:56 2007//
+/lsf_submission.pl/1.6/Thu Aug 19 09:13:36 2004//
+/make_clone_sgp/1.3/Fri Sep 26 13:05:59 2003//
+/make_compara_pipeline/1.1/Wed Mar 19 14:40:40 2003//
+/make_firstef_bsubs.pl/1.2/Tue Aug 12 09:00:32 2003//
+/monitor/1.16/Fri Jun 30 13:13:43 2006//
+/pipeline_from_scratch/1.2/Fri May 30 16:01:50 2003//
+/pipeline_sanity.pl/1.6/Wed Feb  7 15:02:03 2007//
+/rework_minus_big_clust.pl/1.2/Wed Aug 10 20:44:14 2005//
+/rework_paralogues_data.pl/1.3/Wed Aug 10 20:44:14 2005//
+/rule_checker.pl/1.1/Fri Jun  4 14:35:16 2004//
+/rule_setup.pl/1.2/Wed Sep 21 14:36:01 2005//
+/rulemanager.pl/1.27/Thu May 29 15:57:54 2008//
+/run_EST_RunnableDB/1.8/Fri Sep 26 13:05:59 2003//
+/run_GeneBuild_RunnableDB/1.12/Mon Aug 16 10:46:55 2004//
+/run_GeneCombiner.pl/1.6/Mon Oct  6 09:31:08 2003//
+/run_firstef.pl/1.1/Tue Aug 12 08:59:48 2003//
+/run_genomic_exonerate.pl/1.1/Thu Jul 26 11:51:01 2001//
+/set_toplevel.pl/1.5/Thu Oct  4 12:44:18 2007//
+/setup/1.5/Fri Sep 26 13:05:59 2003//
+/setup_batchqueue_outputdir.pl/1.2/Thu Oct  4 13:32:15 2007//
+/slice_groups.pl/1.1/Fri Mar  3 11:35:01 2006//
+/snp_cross_match.pl/1.2/Mon Jan 21 12:33:46 2002//
+/snp_ssaha_match.pl/1.5/Tue Mar  9 17:22:17 2004//
+/test_RunnableDB/1.38/Tue Feb 14 17:16:29 2006//
+D/AlignWise////
+D/DataConversion////
+D/EST////
+D/Features////
+D/Finished////
+D/GeneBuild////
+D/GeneComparison////
+D/HMMs////
+D/LowCoverage////
+D/ModelTraining////
+D/Pre-release-site////
+D/Pseudogenes////
+D/Sequence////
+D/cDNA_update////
+D/chr_subseq////
+D/compara////
+D/mRNA////
+D/ncRNA////
+D/post_GeneBuild////
+D/protein_pipeline////
+D/sql////
+D/wga2genes////
+/setup_orthologue_evaluator.pl/1.15/Wed Aug 27 16:50:57 2008//
+/make_input_ids/1.24/Thu Oct 23 10:08:29 2008//
+/test_Runnable/1.5/Thu Oct 23 10:08:29 2008//
